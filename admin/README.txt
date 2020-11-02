@@ -23,11 +23,11 @@ due to [Automated Component Builder](http://joomlacomponentbuilder.com))
 > (if creating a folder and file took **5 seconds** and writing one line of code took **10 seconds**,
 > never making one mistake or taking any coffee break.)
 
-+ *Line count*: **20353**
-+ *File count*: **190**
++ *Line count*: **20391**
++ *File count*: **191**
 + *Folder count*: **56**
 
-**37 Hours** or **5 Eight Hour Days** (the actual time the author spent)
+**38 Hours** or **5 Eight Hour Days** (the actual time the author spent)
 
 > (with the following break down:
 > **debugging @14hours** = codingtime / 4;
@@ -35,7 +35,7 @@ due to [Automated Component Builder](http://joomlacomponentbuilder.com))
 > **mapping @6hours** = codingtime / 10;
 > **office @9hours** = codingtime / 6;)
 
-**94 Hours** or **12 Eight Hour Days**
+**95 Hours** or **12 Eight Hour Days**
 (a total of the realistic time frame for this project)
 
 > (if creating a folder and file took **5 seconds** and writing one line of code took **10 seconds**,

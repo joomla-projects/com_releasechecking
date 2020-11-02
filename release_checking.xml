@@ -78,4 +78,7 @@
 		</languages>
 
 	</administration>
+	<updateservers>
+		<server type="extension" enabled="1" element="com_release_checking" name="Track Release Checking">https://raw.githubusercontent.com/joomla-projects/com_release_checking/master/update_server.xml</server>
+	</updateservers>
 </extension>
