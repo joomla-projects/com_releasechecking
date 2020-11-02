@@ -1,0 +1,23 @@
+/**
+ * @package    Joomla.CMS
+ * @subpackage com_release_checking
+ *
+ * @copyright  (C) 2020 Open Source Matters, Inc. <http://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+/* CSS Document */
+
+
+.control-wrapper-context .input-append {
+  width: 85% !important;
+}
+.control-wrapper-context .input-append #jform_context_chzn {
+  width: 100% !important;
+}
+.control-wrapper-action .input-append {
+  width: 85% !important;
+}
+.control-wrapper-action .input-append #jform_action_chzn {
+  width: 100% !important;
+}
