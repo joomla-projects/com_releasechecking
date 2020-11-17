@@ -45,10 +45,3 @@ Project duration: **2.4 weeks** or **0.5 months**
 
 > This **component** was build with a Joomla [Automated Component Builder](http://joomlacomponentbuilder.com).
 > Developed by [Llewellyn van der Merwe](mailto:llewellyn@joomlacomponentbuilder.com)
-
-## Donations
-
-If you want to support this project, please consider donating:
-* PayPal: [paypal.me/donationgeek](https://www.paypal.me/donationgeek)
-* Bitcoin: 18vURxYpPFjvNk8BnUy1ovCAyQmY3MzkSf
-* Ethereum: 0x9548144662b47327c954f3e214edb96662d51218
