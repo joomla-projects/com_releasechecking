@@ -10,7 +10,7 @@ Component to keep track of release checking
 + *Author*: [Joomla! Project](mailto:admin@joomla.org)
 + *Name*: [Track Release Checking](http://www.joomla.org)
 + *First Build*: 29th July, 2020
-+ *Last Build*: 2nd November, 2020
++ *Last Build*: 17th November, 2020
 + *Version*: 1.0.x
 + *Copyright*: (C) 2020 Open Source Matters, Inc.
 + *License*: GNU General Public License version 2 or later; see LICENSE.txt
@@ -23,11 +23,11 @@ due to [Automated Component Builder](http://joomlacomponentbuilder.com))
 > (if creating a folder and file took **5 seconds** and writing one line of code took **10 seconds**,
 > never making one mistake or taking any coffee break.)
 
-+ *Line count*: **20391**
++ *Line count*: **20373**
 + *File count*: **191**
 + *Folder count*: **56**
 
-**38 Hours** or **5 Eight Hour Days** (the actual time the author spent)
+**37 Hours** or **5 Eight Hour Days** (the actual time the author spent)
 
 > (with the following break down:
 > **debugging @14hours** = codingtime / 4;
@@ -35,13 +35,10 @@ due to [Automated Component Builder](http://joomlacomponentbuilder.com))
 > **mapping @6hours** = codingtime / 10;
 > **office @9hours** = codingtime / 6;)
 
-**95 Hours** or **12 Eight Hour Days**
+**94 Hours** or **12 Eight Hour Days**
 (a total of the realistic time frame for this project)
 
 > (if creating a folder and file took **5 seconds** and writing one line of code took **10 seconds**,
 > with the normal everyday realities at the office, that includes the component planning, mapping & debugging.)
 
 Project duration: **2.4 weeks** or **0.5 months**
-
-> This **component** was build with a Joomla [Automated Component Builder](http://joomlacomponentbuilder.com).
-> Developed by [Llewellyn van der Merwe](mailto:llewellyn@joomlacomponentbuilder.com)

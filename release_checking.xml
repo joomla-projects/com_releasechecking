@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.2" method="upgrade">
 	<name>COM_RELEASE_CHECKING</name>
-	<creationDate>2nd November, 2020</creationDate>
+	<creationDate>17th November, 2020</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>http://www.joomla.org</authorUrl>
