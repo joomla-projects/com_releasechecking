@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.2" method="upgrade">
 	<name>COM_RELEASE_CHECKING</name>
-	<creationDate>17th November, 2020</creationDate>
+	<creationDate>19th November, 2020</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>http://www.joomla.org</authorUrl>
@@ -11,7 +11,7 @@
 	<description><![CDATA[
 		<h1>Track Release Checking (v.1.0.4)</h1>
 		<div style="clear: both;"></div>
-		<p>Component to keep track of release checking</p>
+		<p>A component to keep track of release checking.</p>
 		<p>Created by <a href="http://www.joomla.org" target="_blank">Joomla! Project</a><br /><small>Development started 29th July, 2020</small></p>
 	]]></description>
 
