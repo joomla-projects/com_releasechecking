@@ -23,11 +23,8 @@ $edit = "index.php?option=com_release_checking&view=contexts&task=context.edit";
 		<td class="order nowrap center hidden-phone">
 		<?php if ($canDo->get('core.edit.state')): ?>
 			<?php
-				if ($this->saveOrder)
-				{
-					$iconClass = ' inactive';
-				}
-				else
+				$iconClass = '';
+				if (!$this->saveOrder)
 				{
 					$iconClass = ' inactive tip-top" hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
 				}

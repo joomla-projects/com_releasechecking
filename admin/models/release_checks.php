@@ -24,23 +24,30 @@ class Release_checkingModelRelease_checks extends JModelList
 			$config['filter_fields'] = array(
 				'a.id','id',
 				'a.published','published',
+				'a.access','access',
 				'a.ordering','ordering',
 				'a.created_by','created_by',
 				'a.modified_by','modified_by',
-				'g.name',
-				'h.name',
+				'g.name','context',
+				'h.name','action',
 				'a.outcome','outcome',
-				'i.name'
+				'i.name','joomla_version'
 			);
 		}
 
 		parent::__construct($config);
 	}
-	
+
 	/**
 	 * Method to auto-populate the model state.
 	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
 	 * @return  void
+	 *
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -51,38 +58,63 @@ class Release_checkingModelRelease_checks extends JModelList
 		{
 			$this->context .= '.' . $layout;
 		}
-		$context = $this->getUserStateFromRequest($this->context . '.filter.context', 'filter_context');
-		$this->setState('filter.context', $context);
 
-		$action = $this->getUserStateFromRequest($this->context . '.filter.action', 'filter_action');
-		$this->setState('filter.action', $action);
+		// Check if the form was submitted
+		$formSubmited = $app->input->post->get('form_submited');
 
-		$outcome = $this->getUserStateFromRequest($this->context . '.filter.outcome', 'filter_outcome');
-		$this->setState('filter.outcome', $outcome);
-
-		$joomla_version = $this->getUserStateFromRequest($this->context . '.filter.joomla_version', 'filter_joomla_version');
-		$this->setState('filter.joomla_version', $joomla_version);
-
-		$created_by = $this->getUserStateFromRequest($this->context . '.filter.created_by', 'filter_created_by');
-		$this->setState('filter.created_by', $created_by);
-        
-		$sorting = $this->getUserStateFromRequest($this->context . '.filter.sorting', 'filter_sorting', 0, 'int');
-		$this->setState('filter.sorting', $sorting);
-        
 		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', 0, 'int');
-		$this->setState('filter.access', $access);
-        
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
+		if ($formSubmited)
+		{
+			$access = $app->input->post->get('access');
+			$this->setState('filter.access', $access);
+		}
 
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
-        
-		$created_by = $this->getUserStateFromRequest($this->context . '.filter.created_by', 'filter_created_by', '');
-		$this->setState('filter.created_by', $created_by);
 
 		$created = $this->getUserStateFromRequest($this->context . '.filter.created', 'filter_created');
 		$this->setState('filter.created', $created);
+
+		$sorting = $this->getUserStateFromRequest($this->context . '.filter.sorting', 'filter_sorting', 0, 'int');
+		$this->setState('filter.sorting', $sorting);
+
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
+
+		$context = $this->getUserStateFromRequest($this->context . '.filter.context', 'filter_context');
+		if ($formSubmited)
+		{
+			$context = $app->input->post->get('context');
+			$this->setState('filter.context', $context);
+		}
+
+		$action = $this->getUserStateFromRequest($this->context . '.filter.action', 'filter_action');
+		if ($formSubmited)
+		{
+			$action = $app->input->post->get('action');
+			$this->setState('filter.action', $action);
+		}
+
+		$outcome = $this->getUserStateFromRequest($this->context . '.filter.outcome', 'filter_outcome');
+		if ($formSubmited)
+		{
+			$outcome = $app->input->post->get('outcome');
+			$this->setState('filter.outcome', $outcome);
+		}
+
+		$joomla_version = $this->getUserStateFromRequest($this->context . '.filter.joomla_version', 'filter_joomla_version');
+		if ($formSubmited)
+		{
+			$joomla_version = $app->input->post->get('joomla_version');
+			$this->setState('filter.joomla_version', $joomla_version);
+		}
+
+		$created_by = $this->getUserStateFromRequest($this->context . '.filter.created_by', 'filter_created_by');
+		if ($formSubmited)
+		{
+			$created_by = $app->input->post->get('created_by');
+			$this->setState('filter.created_by', $created_by);
+		}
 
 		// List state information.
 		parent::populateState($ordering, $direction);
@@ -203,9 +235,17 @@ class Release_checkingModelRelease_checks extends JModelList
 		$query->select('ag.title AS access_level');
 		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
+		$_access = $this->getState('filter.access');
+		if ($_access && is_numeric($_access))
 		{
-			$query->where('a.access = ' . (int) $access);
+			$query->where('a.access = ' . (int) $_access);
+		}
+		elseif (Release_checkingHelper::checkArray($_access))
+		{
+			// Secure the array for the query
+			$_access = ArrayHelper::toInteger($_access);
+			// Filter by the Access Array.
+			$query->where('a.access IN (' . implode(',', $_access) . ')');
 		}
 		// Implement View Level Access
 		if (!$user->authorise('core.options', 'com_release_checking'))
@@ -228,30 +268,205 @@ class Release_checkingModelRelease_checks extends JModelList
 			}
 		}
 
-		// Filter by context.
-		if ($context = $this->getState('filter.context'))
+		// Filter by Context.
+		$_context = $this->getState('filter.context');
+		if (is_numeric($_context))
 		{
-			$query->where('a.context = ' . $db->quote($db->escape($context)));
+			if (is_float($_context))
+			{
+				$query->where('a.context = ' . (float) $_context);
+			}
+			else
+			{
+				$query->where('a.context = ' . (int) $_context);
+			}
 		}
-		// Filter by action.
-		if ($action = $this->getState('filter.action'))
+		elseif (Release_checkingHelper::checkString($_context))
 		{
-			$query->where('a.action = ' . $db->quote($db->escape($action)));
+			$query->where('a.context = ' . $db->quote($db->escape($_context)));
+		}
+		elseif (Release_checkingHelper::checkArray($_context))
+		{
+			// Secure the array for the query
+			$_context = array_map( function ($val) use(&$db) {
+				if (is_numeric($val))
+				{
+					if (is_float($val))
+					{
+						return (float) $val;
+					}
+					else
+					{
+						return (int) $val;
+					}
+				}
+				elseif (Release_checkingHelper::checkString($val))
+				{
+					return $db->quote($db->escape($val));
+				}
+			}, $_context);
+			// Filter by the Context Array.
+			$query->where('a.context IN (' . implode(',', $_context) . ')');
+		}
+		// Filter by Action.
+		$_action = $this->getState('filter.action');
+		if (is_numeric($_action))
+		{
+			if (is_float($_action))
+			{
+				$query->where('a.action = ' . (float) $_action);
+			}
+			else
+			{
+				$query->where('a.action = ' . (int) $_action);
+			}
+		}
+		elseif (Release_checkingHelper::checkString($_action))
+		{
+			$query->where('a.action = ' . $db->quote($db->escape($_action)));
+		}
+		elseif (Release_checkingHelper::checkArray($_action))
+		{
+			// Secure the array for the query
+			$_action = array_map( function ($val) use(&$db) {
+				if (is_numeric($val))
+				{
+					if (is_float($val))
+					{
+						return (float) $val;
+					}
+					else
+					{
+						return (int) $val;
+					}
+				}
+				elseif (Release_checkingHelper::checkString($val))
+				{
+					return $db->quote($db->escape($val));
+				}
+			}, $_action);
+			// Filter by the Action Array.
+			$query->where('a.action IN (' . implode(',', $_action) . ')');
 		}
 		// Filter by Outcome.
-		if ($outcome = $this->getState('filter.outcome'))
+		$_outcome = $this->getState('filter.outcome');
+		if (is_numeric($_outcome))
 		{
-			$query->where('a.outcome = ' . $db->quote($db->escape($outcome)));
+			if (is_float($_outcome))
+			{
+				$query->where('a.outcome = ' . (float) $_outcome);
+			}
+			else
+			{
+				$query->where('a.outcome = ' . (int) $_outcome);
+			}
 		}
-		// Filter by joomla_version.
-		if ($joomla_version = $this->getState('filter.joomla_version'))
+		elseif (Release_checkingHelper::checkString($_outcome))
 		{
-			$query->where('a.joomla_version = ' . $db->quote($db->escape($joomla_version)));
+			$query->where('a.outcome = ' . $db->quote($db->escape($_outcome)));
+		}
+		elseif (Release_checkingHelper::checkArray($_outcome))
+		{
+			// Secure the array for the query
+			$_outcome = array_map( function ($val) use(&$db) {
+				if (is_numeric($val))
+				{
+					if (is_float($val))
+					{
+						return (float) $val;
+					}
+					else
+					{
+						return (int) $val;
+					}
+				}
+				elseif (Release_checkingHelper::checkString($val))
+				{
+					return $db->quote($db->escape($val));
+				}
+			}, $_outcome);
+			// Filter by the Outcome Array.
+			$query->where('a.outcome IN (' . implode(',', $_outcome) . ')');
+		}
+		// Filter by Joomla_version.
+		$_joomla_version = $this->getState('filter.joomla_version');
+		if (is_numeric($_joomla_version))
+		{
+			if (is_float($_joomla_version))
+			{
+				$query->where('a.joomla_version = ' . (float) $_joomla_version);
+			}
+			else
+			{
+				$query->where('a.joomla_version = ' . (int) $_joomla_version);
+			}
+		}
+		elseif (Release_checkingHelper::checkString($_joomla_version))
+		{
+			$query->where('a.joomla_version = ' . $db->quote($db->escape($_joomla_version)));
+		}
+		elseif (Release_checkingHelper::checkArray($_joomla_version))
+		{
+			// Secure the array for the query
+			$_joomla_version = array_map( function ($val) use(&$db) {
+				if (is_numeric($val))
+				{
+					if (is_float($val))
+					{
+						return (float) $val;
+					}
+					else
+					{
+						return (int) $val;
+					}
+				}
+				elseif (Release_checkingHelper::checkString($val))
+				{
+					return $db->quote($db->escape($val));
+				}
+			}, $_joomla_version);
+			// Filter by the Joomla_version Array.
+			$query->where('a.joomla_version IN (' . implode(',', $_joomla_version) . ')');
 		}
 		// Filter by Created_by.
-		if ($created_by = $this->getState('filter.created_by'))
+		$_created_by = $this->getState('filter.created_by');
+		if (is_numeric($_created_by))
 		{
-			$query->where('a.created_by = ' . $db->quote($db->escape($created_by)));
+			if (is_float($_created_by))
+			{
+				$query->where('a.created_by = ' . (float) $_created_by);
+			}
+			else
+			{
+				$query->where('a.created_by = ' . (int) $_created_by);
+			}
+		}
+		elseif (Release_checkingHelper::checkString($_created_by))
+		{
+			$query->where('a.created_by = ' . $db->quote($db->escape($_created_by)));
+		}
+		elseif (Release_checkingHelper::checkArray($_created_by))
+		{
+			// Secure the array for the query
+			$_created_by = array_map( function ($val) use(&$db) {
+				if (is_numeric($val))
+				{
+					if (is_float($val))
+					{
+						return (float) $val;
+					}
+					else
+					{
+						return (int) $val;
+					}
+				}
+				elseif (Release_checkingHelper::checkString($val))
+				{
+					return $db->quote($db->escape($val));
+				}
+			}, $_created_by);
+			// Filter by the Created_by Array.
+			$query->where('a.created_by IN (' . implode(',', $_created_by) . ')');
 		}
 
 		// Add the list ordering clause.
@@ -428,13 +643,68 @@ class Release_checkingModelRelease_checks extends JModelList
 		$id .= ':' . $this->getState('filter.id');
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.published');
+		// Check if the value is an array
+		$_access = $this->getState('filter.access');
+		if (Release_checkingHelper::checkArray($_access))
+		{
+			$id .= ':' . implode(':', $_access);
+		}
+		// Check if this is only an int or string
+		elseif (is_numeric($_access)
+		 || Release_checkingHelper::checkString($_access))
+		{
+			$id .= ':' . $_access;
+		}
 		$id .= ':' . $this->getState('filter.ordering');
-		$id .= ':' . $this->getState('filter.created_by');
 		$id .= ':' . $this->getState('filter.modified_by');
-		$id .= ':' . $this->getState('filter.context');
-		$id .= ':' . $this->getState('filter.action');
-		$id .= ':' . $this->getState('filter.outcome');
-		$id .= ':' . $this->getState('filter.joomla_version');
+		// Check if the value is an array
+		$_context = $this->getState('filter.context');
+		if (Release_checkingHelper::checkArray($_context))
+		{
+			$id .= ':' . implode(':', $_context);
+		}
+		// Check if this is only an int or string
+		elseif (is_numeric($_context)
+		 || Release_checkingHelper::checkString($_context))
+		{
+			$id .= ':' . $_context;
+		}
+		// Check if the value is an array
+		$_action = $this->getState('filter.action');
+		if (Release_checkingHelper::checkArray($_action))
+		{
+			$id .= ':' . implode(':', $_action);
+		}
+		// Check if this is only an int or string
+		elseif (is_numeric($_action)
+		 || Release_checkingHelper::checkString($_action))
+		{
+			$id .= ':' . $_action;
+		}
+		// Check if the value is an array
+		$_outcome = $this->getState('filter.outcome');
+		if (Release_checkingHelper::checkArray($_outcome))
+		{
+			$id .= ':' . implode(':', $_outcome);
+		}
+		// Check if this is only an int or string
+		elseif (is_numeric($_outcome)
+		 || Release_checkingHelper::checkString($_outcome))
+		{
+			$id .= ':' . $_outcome;
+		}
+		// Check if the value is an array
+		$_joomla_version = $this->getState('filter.joomla_version');
+		if (Release_checkingHelper::checkArray($_joomla_version))
+		{
+			$id .= ':' . implode(':', $_joomla_version);
+		}
+		// Check if this is only an int or string
+		elseif (is_numeric($_joomla_version)
+		 || Release_checkingHelper::checkString($_joomla_version))
+		{
+			$id .= ':' . $_joomla_version;
+		}
 
 		return parent::getStoreId($id);
 	}

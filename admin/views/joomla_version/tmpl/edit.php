@@ -42,13 +42,18 @@ $componentParams = $this->params; // will be removed just use $this->params inst
 <div id="release_checking_loader" style="display: none;">
 <form action="<?php echo JRoute::_('index.php?option=com_release_checking&layout=edit&id='. (int) $this->item->id . $this->referral); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
 
-	<?php echo JLayoutHelper::render('joomla_version.details_above', $this); ?>
 <div class="form-horizontal">
 
 	<?php echo JHtml::_('bootstrap.startTabSet', 'joomla_versionTab', array('active' => 'details')); ?>
 
-	<?php echo JHtml::_('bootstrap.addTab', 'joomla_versionTab', 'details', JText::_('', true)); ?>
+	<?php echo JHtml::_('bootstrap.addTab', 'joomla_versionTab', 'details', JText::_('COM_RELEASE_CHECKING_JOOMLA_VERSION_DETAILS', true)); ?>
 		<div class="row-fluid form-horizontal-desktop">
+			<div class="span6">
+				<?php echo JLayoutHelper::render('joomla_version.details_left', $this); ?>
+			</div>
+			<div class="span6">
+				<?php echo JLayoutHelper::render('joomla_version.details_right', $this); ?>
+			</div>
 		</div>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
 

@@ -32,10 +32,14 @@ class Release_checkingViewContexts extends JViewLegacy
 		$this->pagination = $this->get('Pagination');
 		$this->state = $this->get('State');
 		$this->user = JFactory::getUser();
+		// Load the filter form from xml.
+		$this->filterForm = $this->get('FilterForm');
+		// Load the active filters.
+		$this->activeFilters = $this->get('ActiveFilters');
 		// Add the list ordering clause.
 		$this->listOrder = $this->escape($this->state->get('list.ordering', 'a.id'));
 		$this->listDirn = $this->escape($this->state->get('list.direction', 'desc'));
-		$this->saveOrder = $this->listOrder == 'ordering';
+		$this->saveOrder = $this->listOrder == 'a.ordering';
 		// set the return here value
 		$this->return_here = urlencode(base64_encode((string) JUri::getInstance()));
 		// get global action permissions
@@ -152,30 +156,17 @@ class Release_checkingViewContexts extends JViewLegacy
 			JToolBarHelper::preferences('com_release_checking');
 		}
 
-		if ($this->canState)
+		// Only load published batch if state and batch is allowed
+		if ($this->canState && $this->canBatch)
 		{
-			JHtmlSidebar::addFilter(
-				JText::_('JOPTION_SELECT_PUBLISHED'),
-				'filter_published',
-				JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
+			JHtmlBatch_::addListSelection(
+				JText::_('COM_RELEASE_CHECKING_KEEP_ORIGINAL_STATE'),
+				'batch[published]',
+				JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('all' => false)), 'value', 'text', '', true)
 			);
-			// only load if batch allowed
-			if ($this->canBatch)
-			{
-				JHtmlBatch_::addListSelection(
-					JText::_('COM_RELEASE_CHECKING_KEEP_ORIGINAL_STATE'),
-					'batch[published]',
-					JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('all' => false)), 'value', 'text', '', true)
-				);
-			}
 		}
 
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_ACCESS'),
-			'filter_access',
-			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
-		);
-
+		// Only load access batch if create, edit and batch is allowed
 		if ($this->canBatch && $this->canCreate && $this->canEdit)
 		{
 			JHtmlBatch_::addListSelection(
@@ -185,34 +176,24 @@ class Release_checkingViewContexts extends JViewLegacy
 			);
 		}
 
-		// Set Name Selection
-		$this->nameOptions = $this->getTheNameSelections();
-		// We do some sanitation for Name filter
-		if (Release_checkingHelper::checkArray($this->nameOptions) &&
-			isset($this->nameOptions[0]->value) &&
-			!Release_checkingHelper::checkString($this->nameOptions[0]->value))
+		// Only load Name batch if create, edit, and batch is allowed
+		if ($this->canBatch && $this->canCreate && $this->canEdit)
 		{
-			unset($this->nameOptions[0]);
-		}
-		// Only load Name filter if it has values
-		if (Release_checkingHelper::checkArray($this->nameOptions))
-		{
-			// Name Filter
-			JHtmlSidebar::addFilter(
-				'- Select '.JText::_('COM_RELEASE_CHECKING_CONTEXT_NAME_LABEL').' -',
-				'filter_name',
-				JHtml::_('select.options', $this->nameOptions, 'value', 'text', $this->state->get('filter.name'))
-			);
-
-			if ($this->canBatch && $this->canCreate && $this->canEdit)
+			// Set Name Selection
+			$this->nameOptions = JFormHelper::loadFieldType('contextsfiltername')->options;
+			// We do some sanitation for Name filter
+			if (Release_checkingHelper::checkArray($this->nameOptions) &&
+				isset($this->nameOptions[0]->value) &&
+				!Release_checkingHelper::checkString($this->nameOptions[0]->value))
 			{
-				// Name Batch Selection
-				JHtmlBatch_::addListSelection(
-					'- Keep Original '.JText::_('COM_RELEASE_CHECKING_CONTEXT_NAME_LABEL').' -',
-					'batch[name]',
-					JHtml::_('select.options', $this->nameOptions, 'value', 'text')
-				);
+				unset($this->nameOptions[0]);
 			}
+			// Name Batch Selection
+			JHtmlBatch_::addListSelection(
+				'- Keep Original '.JText::_('COM_RELEASE_CHECKING_CONTEXT_NAME_LABEL').' -',
+				'batch[name]',
+				JHtml::_('select.options', $this->nameOptions, 'value', 'text')
+			);
 		}
 	}
 
@@ -257,42 +238,10 @@ class Release_checkingViewContexts extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'ordering' => JText::_('JGRID_HEADING_ORDERING'),
+			'a.ordering' => JText::_('JGRID_HEADING_ORDERING'),
 			'a.published' => JText::_('JSTATUS'),
 			'a.name' => JText::_('COM_RELEASE_CHECKING_CONTEXT_NAME_LABEL'),
 			'a.id' => JText::_('JGRID_HEADING_ID')
 		);
-	}
-
-	protected function getTheNameSelections()
-	{
-		// Get a db connection.
-		$db = JFactory::getDbo();
-
-		// Create a new query object.
-		$query = $db->getQuery(true);
-
-		// Select the text.
-		$query->select($db->quoteName('name'));
-		$query->from($db->quoteName('#__release_checking_context'));
-		$query->order($db->quoteName('name') . ' ASC');
-
-		// Reset the query using our newly populated query object.
-		$db->setQuery($query);
-
-		$results = $db->loadColumn();
-
-		if ($results)
-		{
-			$results = array_unique($results);
-			$_filter = array();
-			foreach ($results as $name)
-			{
-				// Now add the name and its text to the options array
-				$_filter[] = JHtml::_('select.option', $name, $name);
-			}
-			return $_filter;
-		}
-		return false;
 	}
 }

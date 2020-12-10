@@ -161,7 +161,9 @@ class JFormFieldJoomlaversions extends JFormFieldList
 		$options = array();
 		if ($items)
 		{
-			$options[] = JHtml::_('select.option', '', 'Select an option');
+			if ($this->multiple === false) {
+				$options[] = JHtml::_('select.option', '', 'Select an option');
+			}
 			foreach($items as $item)
 			{
 				$options[] = JHtml::_('select.option', $item->id, $item->joomla_version_name);

@@ -73,7 +73,7 @@ class com_release_checkingInstallerScript
 			$release_check_done = $db->execute();
 			if ($release_check_done)
 			{
-				// If succesfully remove Release_check add queued success message.
+				// If successfully remove Release_check add queued success message.
 				$app->enqueueMessage(JText::_('The (com_release_checking.release_check) type alias was removed from the <b>#__content_type</b> table'));
 			}
 
@@ -88,7 +88,7 @@ class com_release_checkingInstallerScript
 			$release_check_done = $db->execute();
 			if ($release_check_done)
 			{
-				// If succesfully remove Release_check add queued success message.
+				// If successfully remove Release_check add queued success message.
 				$app->enqueueMessage(JText::_('The (com_release_checking.release_check) type alias was removed from the <b>#__contentitem_tag_map</b> table'));
 			}
 
@@ -103,7 +103,7 @@ class com_release_checkingInstallerScript
 			$release_check_done = $db->execute();
 			if ($release_check_done)
 			{
-				// If succesfully remove Release_check add queued success message.
+				// If successfully removed Release_check add queued success message.
 				$app->enqueueMessage(JText::_('The (com_release_checking.release_check) type alias was removed from the <b>#__ucm_content</b> table'));
 			}
 
@@ -159,7 +159,7 @@ class com_release_checkingInstallerScript
 			$joomla_version_done = $db->execute();
 			if ($joomla_version_done)
 			{
-				// If succesfully remove Joomla_version add queued success message.
+				// If successfully remove Joomla_version add queued success message.
 				$app->enqueueMessage(JText::_('The (com_release_checking.joomla_version) type alias was removed from the <b>#__content_type</b> table'));
 			}
 
@@ -174,7 +174,7 @@ class com_release_checkingInstallerScript
 			$joomla_version_done = $db->execute();
 			if ($joomla_version_done)
 			{
-				// If succesfully remove Joomla_version add queued success message.
+				// If successfully remove Joomla_version add queued success message.
 				$app->enqueueMessage(JText::_('The (com_release_checking.joomla_version) type alias was removed from the <b>#__contentitem_tag_map</b> table'));
 			}
 
@@ -189,7 +189,7 @@ class com_release_checkingInstallerScript
 			$joomla_version_done = $db->execute();
 			if ($joomla_version_done)
 			{
-				// If succesfully remove Joomla_version add queued success message.
+				// If successfully removed Joomla_version add queued success message.
 				$app->enqueueMessage(JText::_('The (com_release_checking.joomla_version) type alias was removed from the <b>#__ucm_content</b> table'));
 			}
 
@@ -245,7 +245,7 @@ class com_release_checkingInstallerScript
 			$context_done = $db->execute();
 			if ($context_done)
 			{
-				// If succesfully remove Context add queued success message.
+				// If successfully remove Context add queued success message.
 				$app->enqueueMessage(JText::_('The (com_release_checking.context) type alias was removed from the <b>#__content_type</b> table'));
 			}
 
@@ -260,7 +260,7 @@ class com_release_checkingInstallerScript
 			$context_done = $db->execute();
 			if ($context_done)
 			{
-				// If succesfully remove Context add queued success message.
+				// If successfully remove Context add queued success message.
 				$app->enqueueMessage(JText::_('The (com_release_checking.context) type alias was removed from the <b>#__contentitem_tag_map</b> table'));
 			}
 
@@ -275,7 +275,7 @@ class com_release_checkingInstallerScript
 			$context_done = $db->execute();
 			if ($context_done)
 			{
-				// If succesfully remove Context add queued success message.
+				// If successfully removed Context add queued success message.
 				$app->enqueueMessage(JText::_('The (com_release_checking.context) type alias was removed from the <b>#__ucm_content</b> table'));
 			}
 
@@ -331,7 +331,7 @@ class com_release_checkingInstallerScript
 			$action_done = $db->execute();
 			if ($action_done)
 			{
-				// If succesfully remove Action add queued success message.
+				// If successfully remove Action add queued success message.
 				$app->enqueueMessage(JText::_('The (com_release_checking.action) type alias was removed from the <b>#__content_type</b> table'));
 			}
 
@@ -346,7 +346,7 @@ class com_release_checkingInstallerScript
 			$action_done = $db->execute();
 			if ($action_done)
 			{
-				// If succesfully remove Action add queued success message.
+				// If successfully remove Action add queued success message.
 				$app->enqueueMessage(JText::_('The (com_release_checking.action) type alias was removed from the <b>#__contentitem_tag_map</b> table'));
 			}
 
@@ -361,7 +361,7 @@ class com_release_checkingInstallerScript
 			$action_done = $db->execute();
 			if ($action_done)
 			{
-				// If succesfully remove Action add queued success message.
+				// If successfully removed Action add queued success message.
 				$app->enqueueMessage(JText::_('The (com_release_checking.action) type alias was removed from the <b>#__ucm_content</b> table'));
 			}
 
@@ -405,7 +405,7 @@ class com_release_checkingInstallerScript
 		$action_done = $db->execute();
 		if ($action_done)
 		{
-			// If succesfully remove release_checking add queued success message.
+			// If successfully removed release_checking add queued success message.
 			$app->enqueueMessage(JText::_('All related items was removed from the <b>#__assets</b> table'));
 		}
 
@@ -889,7 +889,7 @@ class com_release_checkingInstallerScript
 			echo '<a target="_blank" href="http://www.joomla.org" title="Track Release Checking">
 				<img src="components/com_release_checking/assets/images/vdm-component.jpg"/>
 				</a>
-				<h3>Upgrade to Version 1.0.4 Was Successful! Let us know if anything is not working as expected.</h3>';
+				<h3>Upgrade to Version 1.0.5 Was Successful! Let us know if anything is not working as expected.</h3>';
 
 			// Set db if not set already.
 			if (!isset($db))

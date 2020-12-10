@@ -32,10 +32,14 @@ class Release_checkingViewRelease_checks extends JViewLegacy
 		$this->pagination = $this->get('Pagination');
 		$this->state = $this->get('State');
 		$this->user = JFactory::getUser();
+		// Load the filter form from xml.
+		$this->filterForm = $this->get('FilterForm');
+		// Load the active filters.
+		$this->activeFilters = $this->get('ActiveFilters');
 		// Add the list ordering clause.
 		$this->listOrder = $this->escape($this->state->get('list.ordering', 'a.id'));
 		$this->listDirn = $this->escape($this->state->get('list.direction', 'desc'));
-		$this->saveOrder = $this->listOrder == 'ordering';
+		$this->saveOrder = $this->listOrder == 'a.ordering';
 		// set the return here value
 		$this->return_here = urlencode(base64_encode((string) JUri::getInstance()));
 		// get global action permissions
@@ -152,30 +156,17 @@ class Release_checkingViewRelease_checks extends JViewLegacy
 			JToolBarHelper::preferences('com_release_checking');
 		}
 
-		if ($this->canState)
+		// Only load published batch if state and batch is allowed
+		if ($this->canState && $this->canBatch)
 		{
-			JHtmlSidebar::addFilter(
-				JText::_('JOPTION_SELECT_PUBLISHED'),
-				'filter_published',
-				JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
+			JHtmlBatch_::addListSelection(
+				JText::_('COM_RELEASE_CHECKING_KEEP_ORIGINAL_STATE'),
+				'batch[published]',
+				JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('all' => false)), 'value', 'text', '', true)
 			);
-			// only load if batch allowed
-			if ($this->canBatch)
-			{
-				JHtmlBatch_::addListSelection(
-					JText::_('COM_RELEASE_CHECKING_KEEP_ORIGINAL_STATE'),
-					'batch[published]',
-					JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('all' => false)), 'value', 'text', '', true)
-				);
-			}
 		}
 
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_ACCESS'),
-			'filter_access',
-			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
-		);
-
+		// Only load access batch if create, edit and batch is allowed
 		if ($this->canBatch && $this->canCreate && $this->canEdit)
 		{
 			JHtmlBatch_::addListSelection(
@@ -185,154 +176,104 @@ class Release_checkingViewRelease_checks extends JViewLegacy
 			);
 		}
 
-		// Set Context Name Selection
-		$this->contextNameOptions = JFormHelper::loadFieldType('Contexts')->options;
-		// We do some sanitation for Context Name filter
-		if (Release_checkingHelper::checkArray($this->contextNameOptions) &&
-			isset($this->contextNameOptions[0]->value) &&
-			!Release_checkingHelper::checkString($this->contextNameOptions[0]->value))
+		// Only load Context Name batch if create, edit, and batch is allowed
+		if ($this->canBatch && $this->canCreate && $this->canEdit)
 		{
-			unset($this->contextNameOptions[0]);
-		}
-		// Only load Context Name filter if it has values
-		if (Release_checkingHelper::checkArray($this->contextNameOptions))
-		{
-			// Context Name Filter
-			JHtmlSidebar::addFilter(
-				'- Select '.JText::_('COM_RELEASE_CHECKING_RELEASE_CHECK_CONTEXT_LABEL').' -',
-				'filter_context',
-				JHtml::_('select.options', $this->contextNameOptions, 'value', 'text', $this->state->get('filter.context'))
-			);
-
-			if ($this->canBatch && $this->canCreate && $this->canEdit)
+			// Set Context Name Selection
+			$this->contextNameOptions = JFormHelper::loadFieldType('Contexts')->options;
+			// We do some sanitation for Context Name filter
+			if (Release_checkingHelper::checkArray($this->contextNameOptions) &&
+				isset($this->contextNameOptions[0]->value) &&
+				!Release_checkingHelper::checkString($this->contextNameOptions[0]->value))
 			{
-				// Context Name Batch Selection
-				JHtmlBatch_::addListSelection(
-					'- Keep Original '.JText::_('COM_RELEASE_CHECKING_RELEASE_CHECK_CONTEXT_LABEL').' -',
-					'batch[context]',
-					JHtml::_('select.options', $this->contextNameOptions, 'value', 'text')
-				);
+				unset($this->contextNameOptions[0]);
 			}
-		}
-
-		// Set Action Name Selection
-		$this->actionNameOptions = JFormHelper::loadFieldType('Actions')->options;
-		// We do some sanitation for Action Name filter
-		if (Release_checkingHelper::checkArray($this->actionNameOptions) &&
-			isset($this->actionNameOptions[0]->value) &&
-			!Release_checkingHelper::checkString($this->actionNameOptions[0]->value))
-		{
-			unset($this->actionNameOptions[0]);
-		}
-		// Only load Action Name filter if it has values
-		if (Release_checkingHelper::checkArray($this->actionNameOptions))
-		{
-			// Action Name Filter
-			JHtmlSidebar::addFilter(
-				'- Select '.JText::_('COM_RELEASE_CHECKING_RELEASE_CHECK_ACTION_LABEL').' -',
-				'filter_action',
-				JHtml::_('select.options', $this->actionNameOptions, 'value', 'text', $this->state->get('filter.action'))
+			// Context Name Batch Selection
+			JHtmlBatch_::addListSelection(
+				'- Keep Original '.JText::_('COM_RELEASE_CHECKING_RELEASE_CHECK_CONTEXT_LABEL').' -',
+				'batch[context]',
+				JHtml::_('select.options', $this->contextNameOptions, 'value', 'text')
 			);
+		}
 
-			if ($this->canBatch && $this->canCreate && $this->canEdit)
+		// Only load Action Name batch if create, edit, and batch is allowed
+		if ($this->canBatch && $this->canCreate && $this->canEdit)
+		{
+			// Set Action Name Selection
+			$this->actionNameOptions = JFormHelper::loadFieldType('Actions')->options;
+			// We do some sanitation for Action Name filter
+			if (Release_checkingHelper::checkArray($this->actionNameOptions) &&
+				isset($this->actionNameOptions[0]->value) &&
+				!Release_checkingHelper::checkString($this->actionNameOptions[0]->value))
 			{
-				// Action Name Batch Selection
-				JHtmlBatch_::addListSelection(
-					'- Keep Original '.JText::_('COM_RELEASE_CHECKING_RELEASE_CHECK_ACTION_LABEL').' -',
-					'batch[action]',
-					JHtml::_('select.options', $this->actionNameOptions, 'value', 'text')
-				);
+				unset($this->actionNameOptions[0]);
 			}
-		}
-
-		// Set Outcome Selection
-		$this->outcomeOptions = $this->getTheOutcomeSelections();
-		// We do some sanitation for Outcome filter
-		if (Release_checkingHelper::checkArray($this->outcomeOptions) &&
-			isset($this->outcomeOptions[0]->value) &&
-			!Release_checkingHelper::checkString($this->outcomeOptions[0]->value))
-		{
-			unset($this->outcomeOptions[0]);
-		}
-		// Only load Outcome filter if it has values
-		if (Release_checkingHelper::checkArray($this->outcomeOptions))
-		{
-			// Outcome Filter
-			JHtmlSidebar::addFilter(
-				'- Select '.JText::_('COM_RELEASE_CHECKING_RELEASE_CHECK_OUTCOME_LABEL').' -',
-				'filter_outcome',
-				JHtml::_('select.options', $this->outcomeOptions, 'value', 'text', $this->state->get('filter.outcome'))
+			// Action Name Batch Selection
+			JHtmlBatch_::addListSelection(
+				'- Keep Original '.JText::_('COM_RELEASE_CHECKING_RELEASE_CHECK_ACTION_LABEL').' -',
+				'batch[action]',
+				JHtml::_('select.options', $this->actionNameOptions, 'value', 'text')
 			);
+		}
 
-			if ($this->canBatch && $this->canCreate && $this->canEdit)
+		// Only load Outcome batch if create, edit, and batch is allowed
+		if ($this->canBatch && $this->canCreate && $this->canEdit)
+		{
+			// Set Outcome Selection
+			$this->outcomeOptions = JFormHelper::loadFieldType('releasechecksfilteroutcome')->options;
+			// We do some sanitation for Outcome filter
+			if (Release_checkingHelper::checkArray($this->outcomeOptions) &&
+				isset($this->outcomeOptions[0]->value) &&
+				!Release_checkingHelper::checkString($this->outcomeOptions[0]->value))
 			{
-				// Outcome Batch Selection
-				JHtmlBatch_::addListSelection(
-					'- Keep Original '.JText::_('COM_RELEASE_CHECKING_RELEASE_CHECK_OUTCOME_LABEL').' -',
-					'batch[outcome]',
-					JHtml::_('select.options', $this->outcomeOptions, 'value', 'text')
-				);
+				unset($this->outcomeOptions[0]);
 			}
-		}
-
-		// Set Joomla Version Name Selection
-		$this->joomla_versionNameOptions = JFormHelper::loadFieldType('Joomlaversions')->options;
-		// We do some sanitation for Joomla Version Name filter
-		if (Release_checkingHelper::checkArray($this->joomla_versionNameOptions) &&
-			isset($this->joomla_versionNameOptions[0]->value) &&
-			!Release_checkingHelper::checkString($this->joomla_versionNameOptions[0]->value))
-		{
-			unset($this->joomla_versionNameOptions[0]);
-		}
-		// Only load Joomla Version Name filter if it has values
-		if (Release_checkingHelper::checkArray($this->joomla_versionNameOptions))
-		{
-			// Joomla Version Name Filter
-			JHtmlSidebar::addFilter(
-				'- Select '.JText::_('COM_RELEASE_CHECKING_RELEASE_CHECK_JOOMLA_VERSION_LABEL').' -',
-				'filter_joomla_version',
-				JHtml::_('select.options', $this->joomla_versionNameOptions, 'value', 'text', $this->state->get('filter.joomla_version'))
+			// Outcome Batch Selection
+			JHtmlBatch_::addListSelection(
+				'- Keep Original '.JText::_('COM_RELEASE_CHECKING_RELEASE_CHECK_OUTCOME_LABEL').' -',
+				'batch[outcome]',
+				JHtml::_('select.options', $this->outcomeOptions, 'value', 'text')
 			);
+		}
 
-			if ($this->canBatch && $this->canCreate && $this->canEdit)
+		// Only load Joomla Version Name batch if create, edit, and batch is allowed
+		if ($this->canBatch && $this->canCreate && $this->canEdit)
+		{
+			// Set Joomla Version Name Selection
+			$this->joomla_versionNameOptions = JFormHelper::loadFieldType('Joomlaversions')->options;
+			// We do some sanitation for Joomla Version Name filter
+			if (Release_checkingHelper::checkArray($this->joomla_versionNameOptions) &&
+				isset($this->joomla_versionNameOptions[0]->value) &&
+				!Release_checkingHelper::checkString($this->joomla_versionNameOptions[0]->value))
 			{
-				// Joomla Version Name Batch Selection
-				JHtmlBatch_::addListSelection(
-					'- Keep Original '.JText::_('COM_RELEASE_CHECKING_RELEASE_CHECK_JOOMLA_VERSION_LABEL').' -',
-					'batch[joomla_version]',
-					JHtml::_('select.options', $this->joomla_versionNameOptions, 'value', 'text')
-				);
+				unset($this->joomla_versionNameOptions[0]);
 			}
-		}
-
-		// Set Created By Selection
-		$this->created_byOptions = $this->getTheCreated_bySelections();
-		// We do some sanitation for Created By filter
-		if (Release_checkingHelper::checkArray($this->created_byOptions) &&
-			isset($this->created_byOptions[0]->value) &&
-			!Release_checkingHelper::checkString($this->created_byOptions[0]->value))
-		{
-			unset($this->created_byOptions[0]);
-		}
-		// Only load Created By filter if it has values
-		if (Release_checkingHelper::checkArray($this->created_byOptions))
-		{
-			// Created By Filter
-			JHtmlSidebar::addFilter(
-				'- Select '.JText::_('COM_RELEASE_CHECKING_RELEASE_CHECK_CREATED_BY_LABEL').' -',
-				'filter_created_by',
-				JHtml::_('select.options', $this->created_byOptions, 'value', 'text', $this->state->get('filter.created_by'))
+			// Joomla Version Name Batch Selection
+			JHtmlBatch_::addListSelection(
+				'- Keep Original '.JText::_('COM_RELEASE_CHECKING_RELEASE_CHECK_JOOMLA_VERSION_LABEL').' -',
+				'batch[joomla_version]',
+				JHtml::_('select.options', $this->joomla_versionNameOptions, 'value', 'text')
 			);
+		}
 
-			if ($this->canBatch && $this->canCreate && $this->canEdit)
+		// Only load Created By batch if create, edit, and batch is allowed
+		if ($this->canBatch && $this->canCreate && $this->canEdit)
+		{
+			// Set Created By Selection
+			$this->created_byOptions = JFormHelper::loadFieldType('releasechecksfiltercreatedby')->options;
+			// We do some sanitation for Created By filter
+			if (Release_checkingHelper::checkArray($this->created_byOptions) &&
+				isset($this->created_byOptions[0]->value) &&
+				!Release_checkingHelper::checkString($this->created_byOptions[0]->value))
 			{
-				// Created By Batch Selection
-				JHtmlBatch_::addListSelection(
-					'- Keep Original '.JText::_('COM_RELEASE_CHECKING_RELEASE_CHECK_CREATED_BY_LABEL').' -',
-					'batch[created_by]',
-					JHtml::_('select.options', $this->created_byOptions, 'value', 'text')
-				);
+				unset($this->created_byOptions[0]);
 			}
+			// Created By Batch Selection
+			JHtmlBatch_::addListSelection(
+				'- Keep Original '.JText::_('COM_RELEASE_CHECKING_RELEASE_CHECK_CREATED_BY_LABEL').' -',
+				'batch[created_by]',
+				JHtml::_('select.options', $this->created_byOptions, 'value', 'text')
+			);
 		}
 	}
 
@@ -377,7 +318,7 @@ class Release_checkingViewRelease_checks extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'ordering' => JText::_('JGRID_HEADING_ORDERING'),
+			'a.ordering' => JText::_('JGRID_HEADING_ORDERING'),
 			'a.published' => JText::_('JSTATUS'),
 			'g.name' => JText::_('COM_RELEASE_CHECKING_RELEASE_CHECK_CONTEXT_LABEL'),
 			'h.name' => JText::_('COM_RELEASE_CHECKING_RELEASE_CHECK_ACTION_LABEL'),
@@ -386,73 +327,5 @@ class Release_checkingViewRelease_checks extends JViewLegacy
 			'a.created_by' => JText::_('COM_RELEASE_CHECKING_RELEASE_CHECK_CREATED_BY_LABEL'),
 			'a.id' => JText::_('JGRID_HEADING_ID')
 		);
-	}
-
-	protected function getTheOutcomeSelections()
-	{
-		// Get a db connection.
-		$db = JFactory::getDbo();
-
-		// Create a new query object.
-		$query = $db->getQuery(true);
-
-		// Select the text.
-		$query->select($db->quoteName('outcome'));
-		$query->from($db->quoteName('#__release_checking_release_check'));
-		$query->order($db->quoteName('outcome') . ' ASC');
-
-		// Reset the query using our newly populated query object.
-		$db->setQuery($query);
-
-		$results = $db->loadColumn();
-
-		if ($results)
-		{
-			// get model
-			$model = $this->getModel();
-			$results = array_unique($results);
-			$_filter = array();
-			foreach ($results as $outcome)
-			{
-				// Translate the outcome selection
-				$text = $model->selectionTranslation($outcome,'outcome');
-				// Now add the outcome and its text to the options array
-				$_filter[] = JHtml::_('select.option', $outcome, JText::_($text));
-			}
-			return $_filter;
-		}
-		return false;
-	}
-
-	protected function getTheCreated_bySelections()
-	{
-		// Get a db connection.
-		$db = JFactory::getDbo();
-
-		// Create a new query object.
-		$query = $db->getQuery(true);
-
-		// Select the text.
-		$query->select($db->quoteName('created_by'));
-		$query->from($db->quoteName('#__release_checking_release_check'));
-		$query->order($db->quoteName('created_by') . ' ASC');
-
-		// Reset the query using our newly populated query object.
-		$db->setQuery($query);
-
-		$results = $db->loadColumn();
-
-		if ($results)
-		{
-			$results = array_unique($results);
-			$_filter = array();
-			foreach ($results as $created_by)
-			{
-				// Now add the created_by and its text to the options array
-				$_filter[] = JHtml::_('select.option', $created_by, JFactory::getUser($created_by)->name);
-			}
-			return $_filter;
-		}
-		return false;
 	}
 }

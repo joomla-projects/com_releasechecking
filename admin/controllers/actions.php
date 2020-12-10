@@ -53,7 +53,7 @@ class Release_checkingControllerActions extends JControllerAdmin
 			$input = JFactory::getApplication()->input;
 			$pks = $input->post->get('cid', array(), 'array');
 			// Sanitize the input
-			ArrayHelper::toInteger($pks);
+			$pks = ArrayHelper::toInteger($pks);
 			// Get the model
 			$model = $this->getModel('Actions');
 			// get the data to export

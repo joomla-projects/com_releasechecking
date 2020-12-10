@@ -26,8 +26,10 @@ class Release_checkingModelJoomla_version extends JModelAdmin
 	 */
 	protected $tabLayoutFields = array(
 		'details' => array(
-			'above' => array(
-				'name',
+			'left' => array(
+				'name'
+			),
+			'right' => array(
 				'alias'
 			)
 		)
