@@ -649,7 +649,7 @@ class Release_checkingModelRelease_checks extends JModelList
 		{
 			$id .= ':' . implode(':', $_access);
 		}
-		// Check if this is only an int or string
+		// Check if this is only an number or string
 		elseif (is_numeric($_access)
 		 || Release_checkingHelper::checkString($_access))
 		{
@@ -663,7 +663,7 @@ class Release_checkingModelRelease_checks extends JModelList
 		{
 			$id .= ':' . implode(':', $_context);
 		}
-		// Check if this is only an int or string
+		// Check if this is only an number or string
 		elseif (is_numeric($_context)
 		 || Release_checkingHelper::checkString($_context))
 		{
@@ -675,7 +675,7 @@ class Release_checkingModelRelease_checks extends JModelList
 		{
 			$id .= ':' . implode(':', $_action);
 		}
-		// Check if this is only an int or string
+		// Check if this is only an number or string
 		elseif (is_numeric($_action)
 		 || Release_checkingHelper::checkString($_action))
 		{
@@ -687,7 +687,7 @@ class Release_checkingModelRelease_checks extends JModelList
 		{
 			$id .= ':' . implode(':', $_outcome);
 		}
-		// Check if this is only an int or string
+		// Check if this is only an number or string
 		elseif (is_numeric($_outcome)
 		 || Release_checkingHelper::checkString($_outcome))
 		{
@@ -699,7 +699,7 @@ class Release_checkingModelRelease_checks extends JModelList
 		{
 			$id .= ':' . implode(':', $_joomla_version);
 		}
-		// Check if this is only an int or string
+		// Check if this is only an number or string
 		elseif (is_numeric($_joomla_version)
 		 || Release_checkingHelper::checkString($_joomla_version))
 		{

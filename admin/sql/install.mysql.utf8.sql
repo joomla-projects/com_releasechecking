@@ -278,8 +278,3 @@ INSERT INTO `#__release_checking_action` (`id`, `alias`, `context`, `description
 (95, 'make-sure-google-recaptcha-still-works', 35, '', 'Make sure Google recaptcha still works', 1);
 
 
-
---
--- Always insure this column rules is large enough for all the access control values.
---
-ALTER TABLE `#__assets` CHANGE `rules` `rules` TEXT NOT NULL COMMENT 'JSON encoded access control.';

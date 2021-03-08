@@ -8,7 +8,7 @@
  */
 
 // No direct access to this file
-defined('_JEXEC') or die('Restricted access'); 
+defined('_JEXEC') or die('Restricted access');
 
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');

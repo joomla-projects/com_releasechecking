@@ -339,7 +339,7 @@ class Release_checkingModelContexts extends JModelList
 		{
 			$id .= ':' . implode(':', $_access);
 		}
-		// Check if this is only an int or string
+		// Check if this is only an number or string
 		elseif (is_numeric($_access)
 		 || Release_checkingHelper::checkString($_access))
 		{

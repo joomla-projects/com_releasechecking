@@ -10,6 +10,8 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 JHTML::_('behavior.modal');
 
 /**
@@ -409,6 +411,27 @@ class com_release_checkingInstallerScript
 			$app->enqueueMessage(JText::_('All related items was removed from the <b>#__assets</b> table'));
 		}
 
+		// Get the biggest rule column in the assets table at this point.
+		$get_rule_length = "SELECT CHAR_LENGTH(`rules`) as rule_size FROM #__assets ORDER BY rule_size DESC LIMIT 1";
+		$db->setQuery($get_rule_length);
+		if ($db->execute())
+		{
+			$rule_length = $db->loadResult();
+			// Check the size of the rules column
+			if ($rule_length < 5120)
+			{
+				// Revert the assets table rules column back to the default
+				$revert_rule = "ALTER TABLE `#__assets` CHANGE `rules` `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.';";
+				$db->setQuery($revert_rule);
+				$db->execute();
+				$app->enqueueMessage(JText::_('Reverted the <b>#__assets</b> table rules column back to its default size of varchar(5120)'));
+			}
+			else
+			{
+
+				$app->enqueueMessage(JText::_('Could not revert the <b>#__assets</b> table rules column back to its default size of varchar(5120), since there is still one or more components that still requires the column to be larger.'));
+			}
+		}
 
 		// Set db if not set already.
 		if (!isset($db))
@@ -584,12 +607,12 @@ class com_release_checkingInstallerScript
 		{
 		}
 		// check if the PHPExcel stuff is still around
-		if (JFile::exists(JPATH_ADMINISTRATOR . '/components/com_release_checking/helpers/PHPExcel.php'))
+		if (File::exists(JPATH_ADMINISTRATOR . '/components/com_release_checking/helpers/PHPExcel.php'))
 		{
 			// We need to remove this old PHPExcel folder
 			$this->removeFolder(JPATH_ADMINISTRATOR . '/components/com_release_checking/helpers/PHPExcel');
 			// We need to remove this old PHPExcel file
-			JFile::delete(JPATH_ADMINISTRATOR . '/components/com_release_checking/helpers/PHPExcel.php');
+			File::delete(JPATH_ADMINISTRATOR . '/components/com_release_checking/helpers/PHPExcel.php');
 		}
 		return true;
 	}
@@ -678,6 +701,22 @@ class com_release_checkingInstallerScript
 			$db->setQuery($query);
 			$allDone = $db->execute();
 
+			// Get the biggest rule column in the assets table at this point.
+			$get_rule_length = "SELECT CHAR_LENGTH(`rules`) as rule_size FROM #__assets ORDER BY rule_size DESC LIMIT 1";
+			$db->setQuery($get_rule_length);
+			if ($db->execute())
+			{
+				$rule_length = $db->loadResult();
+				// Check the size of the rules column
+				if ($rule_length <= 6080)
+				{
+					// Fix the assets table rules column size
+					$fix_rules_size = "ALTER TABLE `#__assets` CHANGE `rules` `rules` TEXT NOT NULL COMMENT 'JSON encoded access control. Enlarged to TEXT by JCB';";
+					$db->setQuery($fix_rules_size);
+					$db->execute();
+					$app->enqueueMessage(JText::_('The <b>#__assets</b> table rules column was resized to the TEXT datatype for the components possible large permission rules.'));
+				}
+			}
 			echo '<a target="_blank" href="http://www.joomla.org" title="Track Release Checking">
 				<img src="components/com_release_checking/assets/images/vdm-component.jpg"/>
 				</a>';
@@ -1064,7 +1103,7 @@ class com_release_checkingInstallerScript
 	 */
 	protected function removeFolder($dir, $ignore = false)
 	{
-		if (JFolder::exists($dir))
+		if (Folder::exists($dir))
 		{
 			$it = new RecursiveDirectoryIterator($dir);
 			$it = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
@@ -1094,7 +1133,7 @@ class com_release_checkingInstallerScript
 					{
 						continue;
 					}
-					JFolder::delete($file_dir);
+					Folder::delete($file_dir);
 				}
 				else
 				{
@@ -1113,13 +1152,13 @@ class com_release_checkingInstallerScript
 					{
 						continue;
 					}
-					JFile::delete($file_dir);
+					File::delete($file_dir);
 				}
 			}
 			// delete the root folder if not ignore found
 			if (!$this->checkArray($ignore))
 			{
-				return JFolder::delete($dir);
+				return Folder::delete($dir);
 			}
 			return true;
 		}
@@ -1165,7 +1204,7 @@ class com_release_checkingInstallerScript
 		$installer = $parent->getParent();
 		$installPath = $installer->getPath('source');
 		// get all the folders
-		$folders = JFolder::folders($installPath);
+		$folders = Folder::folders($installPath);
 		// check if we have folders we may want to copy
 		$doNotCopy = array('media','admin','site'); // Joomla already deals with these
 		if (count((array) $folders) > 1)
@@ -1180,7 +1219,7 @@ class com_release_checkingInstallerScript
 					// set the destination path
 					$dest = JPATH_ROOT.'/'.$folder;
 					// now try to copy the folder
-					if (!JFolder::copy($src, $dest, '', true))
+					if (!Folder::copy($src, $dest, '', true))
 					{
 						$app->enqueueMessage('Could not copy '.$folder.' folder into place, please make sure destination is writable!', 'error');
 					}
