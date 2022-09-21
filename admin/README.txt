@@ -8,13 +8,13 @@ A component to keep track of release checking.
 + *Author*: [Joomla! Project](mailto:admin@joomla.org)
 + *Name*: [Track Release Checking](http://www.joomla.org)
 + *First Build*: 29th July, 2020
-+ *Last Build*: 8th March, 2021
++ *Last Build*: 21st September, 2022
 + *Version*: 1.0.x
 + *Copyright*: (C) 2020 Open Source Matters, Inc.
 + *License*: GNU General Public License version 2 or later; see LICENSE.txt
 
 ## Some Fun Numbers
 
-+ *Line count*: **21151**
-+ *File count*: **200**
-+ *Folder count*: **56**
++ *Line count*: **22248**
++ *File count*: **213**
++ *Folder count*: **62**

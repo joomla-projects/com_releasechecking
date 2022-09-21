@@ -1,8 +1,9 @@
 <?php
 /**
  * @package    Joomla.CMS
- * @subpackage com_release_checking
+ * @maintainer Llewellyn van der Merwe <https://git.vdm.dev/Llewellyn>
  *
+ * @created    29th July, 2020
  * @copyright  (C) 2020 Open Source Matters, Inc. <http://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -12,7 +13,8 @@ defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-JHTML::_('behavior.modal');
+use Joomla\CMS\Installer\Adapter\ComponentAdapter;
+JHTML::_('bootstrap.renderModal');
 
 /**
  * Script File of Release_checking Component
@@ -24,23 +26,23 @@ class com_release_checkingInstallerScript
 	 *
 	 * @param   JAdapterInstance  $parent  The object responsible for running this script
 	 */
-	public function __construct(JAdapterInstance $parent) {}
+	public function __construct(ComponentAdapter $parent) {}
 
 	/**
 	 * Called on installation
 	 *
-	 * @param   JAdapterInstance  $parent  The object responsible for running this script
+	 * @param   ComponentAdapter  $parent  The object responsible for running this script
 	 *
 	 * @return  boolean  True on success
 	 */
-	public function install(JAdapterInstance $parent) {}
+	public function install(ComponentAdapter $parent) {}
 
 	/**
 	 * Called on uninstallation
 	 *
-	 * @param   JAdapterInstance  $parent  The object responsible for running this script
+	 * @param   ComponentAdapter  $parent  The object responsible for running this script
 	 */
-	public function uninstall(JAdapterInstance $parent)
+	public function uninstall(ComponentAdapter $parent)
 	{
 		// Get Application object
 		$app = JFactory::getApplication();
@@ -568,21 +570,21 @@ class com_release_checkingInstallerScript
 	/**
 	 * Called on update
 	 *
-	 * @param   JAdapterInstance  $parent  The object responsible for running this script
+	 * @param   ComponentAdapter  $parent  The object responsible for running this script
 	 *
 	 * @return  boolean  True on success
 	 */
-	public function update(JAdapterInstance $parent){}
+	public function update(ComponentAdapter $parent){}
 
 	/**
 	 * Called before any type of action
 	 *
 	 * @param   string  $type  Which action is happening (install|uninstall|discover_install|update)
-	 * @param   JAdapterInstance  $parent  The object responsible for running this script
+	 * @param   ComponentAdapter  $parent  The object responsible for running this script
 	 *
 	 * @return  boolean  True on success
 	 */
-	public function preflight($type, JAdapterInstance $parent)
+	public function preflight($type, ComponentAdapter $parent)
 	{
 		// get application
 		$app = JFactory::getApplication();
@@ -621,11 +623,11 @@ class com_release_checkingInstallerScript
 	 * Called after any type of action
 	 *
 	 * @param   string  $type  Which action is happening (install|uninstall|discover_install|update)
-	 * @param   JAdapterInstance  $parent  The object responsible for running this script
+	 * @param   ComponentAdapter  $parent  The object responsible for running this script
 	 *
 	 * @return  boolean  True on success
 	 */
-	public function postflight($type, JAdapterInstance $parent)
+	public function postflight($type, ComponentAdapter $parent)
 	{
 		// get application
 		$app = JFactory::getApplication();
@@ -687,7 +689,7 @@ class com_release_checkingInstallerScript
 			$action_Inserted = $db->insertObject('#__content_types', $action);
 
 
-			// Install the global extenstion params.
+			// Install the global extension params.
 			$query = $db->getQuery(true);
 			// Field to update.
 			$fields = array(

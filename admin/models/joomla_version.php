@@ -1,8 +1,9 @@
 <?php
 /**
  * @package    Joomla.CMS
- * @subpackage com_release_checking
+ * @maintainer Llewellyn van der Merwe <https://git.vdm.dev/Llewellyn>
  *
+ * @created    29th July, 2020
  * @copyright  (C) 2020 Open Source Matters, Inc. <http://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -10,14 +11,15 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
- * Release_checking Joomla_version Model
+ * Release_checking Joomla_version Admin Model
  */
-class Release_checkingModelJoomla_version extends JModelAdmin
+class Release_checkingModelJoomla_version extends AdminModel
 {
 	/**
 	 * The tab layout fields array.
@@ -95,12 +97,6 @@ class Release_checkingModelJoomla_version extends JModelAdmin
 				$registry = new Registry;
 				$registry->loadString($item->metadata);
 				$item->metadata = $registry->toArray();
-			}
-			
-			if (!empty($item->id))
-			{
-				$item->tags = new JHelperTags;
-				$item->tags->getTagIds($item->id, 'com_release_checking.joomla_version');
 			}
 		}
 
@@ -223,7 +219,7 @@ class Release_checkingModelJoomla_version extends JModelAdmin
 	 */
 	public function getScript()
 	{
-		return 'administrator/components/com_release_checking/models/forms/joomla_version.js';
+		return 'media/com_release_checking/js/joomla_version.js';
 	}
     
 	/**

@@ -1,8 +1,9 @@
 <?php
 /**
  * @package    Joomla.CMS
- * @subpackage com_release_checking
+ * @maintainer Llewellyn van der Merwe <https://git.vdm.dev/Llewellyn>
  *
+ * @created    29th July, 2020
  * @copyright  (C) 2020 Open Source Matters, Inc. <http://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -10,12 +11,13 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\Utilities\ArrayHelper;
 
 /**
- * Context Controller
+ * Context Form Controller
  */
-class Release_checkingControllerContext extends JControllerForm
+class Release_checkingControllerContext extends FormController
 {
 	/**
 	 * Current or most recently performed task.

@@ -1,8 +1,9 @@
 <?php
 /**
  * @package    Joomla.CMS
- * @subpackage com_release_checking
+ * @maintainer Llewellyn van der Merwe <https://git.vdm.dev/Llewellyn>
  *
+ * @created    29th July, 2020
  * @copyright  (C) 2020 Open Source Matters, Inc. <http://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -10,15 +11,16 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\Utilities\ArrayHelper;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 /**
- * Release_checking Import Model
+ * Release_checking Import Base Database Model
  */
-class Release_checkingModelImport extends JModelLegacy
+class Release_checkingModelImport extends BaseDatabaseModel
 {
 	// set uploading values
 	protected $use_streams = false;

@@ -1,8 +1,9 @@
 <?php
 /**
  * @package    Joomla.CMS
- * @subpackage com_release_checking
+ * @maintainer Llewellyn van der Merwe <https://git.vdm.dev/Llewellyn>
  *
+ * @created    29th July, 2020
  * @copyright  (C) 2020 Open Source Matters, Inc. <http://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -10,10 +11,12 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\MVC\View\HtmlView;
+
 /**
- * Release_checking Import View
+ * Release_checking Import Html View
  */
-class Release_checkingViewImport extends JViewLegacy
+class Release_checkingViewImport extends HtmlView
 {
 	protected $headerList;
 	protected $hasPackage = false;
@@ -82,10 +85,10 @@ class Release_checkingViewImport extends JViewLegacy
 		}
 
 		// set help url for this view if found
-		$help_url = Release_checkingHelper::getHelpUrl('import');
-		if (Release_checkingHelper::checkString($help_url))
+		$this->help_url = Release_checkingHelper::getHelpUrl('import');
+		if (Release_checkingHelper::checkString($this->help_url))
 		{
-			   JToolbarHelper::help('COM_RELEASE_CHECKING_HELP_MANAGER', false, $help_url);
+			   JToolbarHelper::help('COM_RELEASE_CHECKING_HELP_MANAGER', false, $this->help_url);
 		}
 	}
 }

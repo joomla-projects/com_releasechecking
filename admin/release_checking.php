@@ -1,8 +1,9 @@
 <?php
 /**
  * @package    Joomla.CMS
- * @subpackage com_release_checking
+ * @maintainer Llewellyn van der Merwe <https://git.vdm.dev/Llewellyn>
  *
+ * @created    29th July, 2020
  * @copyright  (C) 2020 Open Source Matters, Inc. <http://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -10,7 +11,7 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
-JHtml::_('behavior.tabstate');
+
 
 // Access check.
 if (!JFactory::getUser()->authorise('core.manage', 'com_release_checking'))
@@ -24,8 +25,8 @@ $document->addStyleSheet('components/com_release_checking/assets/css/admin.css')
 $document->addScript('components/com_release_checking/assets/js/admin.js');
 
 // require helper files
-JLoader::register('Release_checkingHelper', __DIR__ . '/helpers/release_checking.php'); 
-JLoader::register('JHtmlBatch_', __DIR__ . '/helpers/html/batch_.php'); 
+JLoader::register('Release_checkingHelper', __DIR__ . '/helpers/release_checking.php');
+JLoader::register('JHtmlBatch_', __DIR__ . '/helpers/html/batch_.php');
 
 // Get an instance of the controller prefixed by Release_checking
 $controller = JControllerLegacy::getInstance('Release_checking');

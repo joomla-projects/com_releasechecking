@@ -1,8 +1,9 @@
 <?php
 /**
  * @package    Joomla.CMS
- * @subpackage com_release_checking
+ * @maintainer Llewellyn van der Merwe <https://git.vdm.dev/Llewellyn>
  *
+ * @created    29th July, 2020
  * @copyright  (C) 2020 Open Source Matters, Inc. <http://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -10,7 +11,6 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', '.multipleAccessLevels', null, array('placeholder_text_multiple' => '- ' . JText::_('COM_RELEASE_CHECKING_FILTER_SELECT_ACCESS') . ' -'));
@@ -31,6 +31,8 @@ if ($this->saveOrder)
 	<div id="j-main-container">
 <?php endif; ?>
 <?php
+	// Add the trash helper layout
+	echo JLayoutHelper::render('trashhelper', $this);
 	// Add the searchtools
 	echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 ?>

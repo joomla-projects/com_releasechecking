@@ -1,8 +1,9 @@
 <?php
 /**
  * @package    Joomla.CMS
- * @subpackage com_release_checking
+ * @maintainer Llewellyn van der Merwe <https://git.vdm.dev/Llewellyn>
  *
+ * @created    29th July, 2020
  * @copyright  (C) 2020 Open Source Matters, Inc. <http://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -10,10 +11,12 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\MVC\View\HtmlView;
+
 /**
- * Release_checking View class for the Actions
+ * Release_checking Html View class for the Actions
  */
-class Release_checkingViewActions extends JViewLegacy
+class Release_checkingViewActions extends HtmlView
 {
 	/**
 	 * Actions view display method
@@ -144,10 +147,10 @@ class Release_checkingViewActions extends JViewLegacy
 		}
 
 		// set help url for this view if found
-		$help_url = Release_checkingHelper::getHelpUrl('actions');
-		if (Release_checkingHelper::checkString($help_url))
+		$this->help_url = Release_checkingHelper::getHelpUrl('actions');
+		if (Release_checkingHelper::checkString($this->help_url))
 		{
-				JToolbarHelper::help('COM_RELEASE_CHECKING_HELP_MANAGER', false, $help_url);
+				JToolbarHelper::help('COM_RELEASE_CHECKING_HELP_MANAGER', false, $this->help_url);
 		}
 
 		// add the options comp button

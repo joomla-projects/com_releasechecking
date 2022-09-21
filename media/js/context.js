@@ -1,4 +1,3 @@
-<?php
 /**
  * @package    Joomla.CMS
  * @maintainer Llewellyn van der Merwe <https://git.vdm.dev/Llewellyn>
@@ -8,10 +7,4 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access to this file
-defined('_JEXEC') or die('Restricted access');
-
-?>
-<tr>
-	<td colspan="7"><?php echo $this->pagination->getListFooter(); ?></td>
-</tr>
+ 

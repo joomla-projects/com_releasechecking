@@ -1,8 +1,9 @@
 <?php
 /**
  * @package    Joomla.CMS
- * @subpackage com_release_checking
+ * @maintainer Llewellyn van der Merwe <https://git.vdm.dev/Llewellyn>
  *
+ * @created    29th July, 2020
  * @copyright  (C) 2020 Open Source Matters, Inc. <http://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -10,10 +11,12 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\MVC\View\HtmlView;
+
 /**
- * Context View class
+ * Context Html View class
  */
-class Release_checkingViewContext extends JViewLegacy
+class Release_checkingViewContext extends HtmlView
 {
 	/**
 	 * display method of View
@@ -147,10 +150,10 @@ class Release_checkingViewContext extends JViewLegacy
 		}
 		JToolbarHelper::divider();
 		// set help url for this view if found
-		$help_url = Release_checkingHelper::getHelpUrl('context');
-		if (Release_checkingHelper::checkString($help_url))
+		$this->help_url = Release_checkingHelper::getHelpUrl('context');
+		if (Release_checkingHelper::checkString($this->help_url))
 		{
-			JToolbarHelper::help('COM_RELEASE_CHECKING_HELP_MANAGER', false, $help_url);
+			JToolbarHelper::help('COM_RELEASE_CHECKING_HELP_MANAGER', false, $this->help_url);
 		}
 	}
 

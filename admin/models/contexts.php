@@ -1,8 +1,9 @@
 <?php
 /**
  * @package    Joomla.CMS
- * @subpackage com_release_checking
+ * @maintainer Llewellyn van der Merwe <https://git.vdm.dev/Llewellyn>
  *
+ * @created    29th July, 2020
  * @copyright  (C) 2020 Open Source Matters, Inc. <http://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -10,12 +11,13 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
- * Contexts Model
+ * Contexts List Model
  */
-class Release_checkingModelContexts extends JModelList
+class Release_checkingModelContexts extends ListModel
 {
 	public function __construct($config = array())
 	{
@@ -99,7 +101,7 @@ class Release_checkingModelContexts extends JModelList
 	 */
 	public function getItems()
 	{
-		// check in items
+		// Check in items
 		$this->checkInNow();
 
 		// load parent items
@@ -369,17 +371,19 @@ class Release_checkingModelContexts extends JModelList
 
 			// Get a db connection.
 			$db = JFactory::getDbo();
-			// reset query
+			// Reset query.
 			$query = $db->getQuery(true);
 			$query->select('*');
 			$query->from($db->quoteName('#__release_checking_context'));
-			$db->setQuery($query);
+			// Only select items that are checked out.
+			$query->where($db->quoteName('checked_out') . '!=0');
+			$db->setQuery($query, 0, 1);
 			$db->execute();
 			if ($db->getNumRows())
 			{
-				// Get Yesterdays date
+				// Get Yesterdays date.
 				$date = JFactory::getDate()->modify($time)->toSql();
-				// reset query
+				// Reset query.
 				$query = $db->getQuery(true);
 
 				// Fields to update.
@@ -394,7 +398,7 @@ class Release_checkingModelContexts extends JModelList
 					$db->quoteName('checked_out_time') . '<\''.$date.'\''
 				);
 
-				// Check table
+				// Check table.
 				$query->update($db->quoteName('#__release_checking_context'))->set($fields)->where($conditions); 
 
 				$db->setQuery($query);
