@@ -48,20 +48,20 @@ class JFormFieldReleasechecksfilteroutcome extends JFormFieldList
 		// Reset the query using our newly populated query object.
 		$db->setQuery($query);
 
-		$results = $db->loadColumn();
+		$_results = $db->loadColumn();
 		$_filter = array();
 
-		if ($results)
+		if ($_results)
 		{
 			// get release_checksmodel
-			$model = Release_checkingHelper::getModel('release_checks');
-			$results = array_unique($results);
-			foreach ($results as $outcome)
+			$_model = Release_checkingHelper::getModel('release_checks');
+			$_results = array_unique($_results);
+			foreach ($_results as $outcome)
 			{
 				// Translate the outcome selection
-				$text = $model->selectionTranslation($outcome,'outcome');
+				$_text = $_model->selectionTranslation($outcome,'outcome');
 				// Now add the outcome and its text to the options array
-				$_filter[] = JHtml::_('select.option', $outcome, JText::_($text));
+				$_filter[] = JHtml::_('select.option', $outcome, JText::_($_text));
 			}
 		}
 		return $_filter;

@@ -13,6 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
+use VDM\Joomla\Utilities\ArrayHelper as UtilitiesArrayHelper;
 
 /**
  * Release_checking Ajax List Model
@@ -61,7 +62,7 @@ class Release_checkingModelAjax extends ListModel
 		$query->select($db->quoteName( array('a.id') ));
 		$query->from($db->quoteName('#__release_checking_action', 'a'));
 		// we also filter out the actions this user already did on this context
-		if (Release_checkingHelper::checkArray($result['removed_ids']))
+		if (UtilitiesArrayHelper::check($result['removed_ids']))
 		{
 			$query->where($db->quoteName('a.id') . ' NOT IN (' . implode(', ', $result['removed_ids']) . ')');
 		}

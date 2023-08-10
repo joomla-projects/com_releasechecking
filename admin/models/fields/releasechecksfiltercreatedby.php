@@ -48,13 +48,13 @@ class JFormFieldReleasechecksfiltercreatedby extends JFormFieldList
 		// Reset the query using our newly populated query object.
 		$db->setQuery($query);
 
-		$results = $db->loadColumn();
+		$_results = $db->loadColumn();
 		$_filter = array();
 
-		if ($results)
+		if ($_results)
 		{
-			$results = array_unique($results);
-			foreach ($results as $created_by)
+			$_results = array_unique($_results);
+			foreach ($_results as $created_by)
 			{
 				// Now add the created_by and its text to the options array
 				$_filter[] = JHtml::_('select.option', $created_by, JFactory::getUser($created_by)->name);

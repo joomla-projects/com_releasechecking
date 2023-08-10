@@ -17,7 +17,7 @@ use Joomla\CMS\Filesystem\Folder;
 use Joomla\Utilities\ArrayHelper;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-/**
+/***
  * Release_checking Import Base Database Model
  */
 class Release_checkingModelImport extends BaseDatabaseModel
