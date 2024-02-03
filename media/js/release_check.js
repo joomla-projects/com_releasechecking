@@ -43,7 +43,7 @@ jQuery(document).ready(function($)
 });
 
 function getAction_server(context, joomla_version, current_id){
-	var getUrl = JRouter("index.php?option=com_release_checking&task=ajax.getAction&raw=true&format=json");
+	var getUrl = JRouter("index.php?option=com_releasechecking&task=ajax.getAction&raw=true&format=json");
 	if(token.length > 0 && context > 0 && joomla_version > 0){
 		var request = token+'=1&context='+context+'&joomla_version='+joomla_version+'&current_id='+current_id;
 	}
@@ -80,7 +80,7 @@ function getAction(){
 		jQuery("#loading").hide();
 		// if version is not selected give notice to select the version
 		if (context > 0 && joomla_version == 0) {
-			alert(Joomla.JText._('COM_RELEASE_CHECKING_YOU_MUST_FIRST_SELECT_THE_JOOMLA_VERSION_BEING_TESTED'));
+			alert(Joomla.JText._('COM_RELEASECHECKING_YOU_MUST_FIRST_SELECT_THE_JOOMLA_VERSION_BEING_TESTED'));
 			jQuery('#jform_action').val(0);
 			jQuery('#jform_action').trigger('liszt:updated');
 			jQuery('#jform_context').val(0);
@@ -90,7 +90,7 @@ function getAction(){
 }
 function setAction(array){
 	if (array.ids && array.ids.length > 0) {
-		jQuery('#jform_action').append('<option value="">' + Joomla.JText._('COM_RELEASE_CHECKING_SELECT') + '...</option>');
+		jQuery('#jform_action').append('<option value="">' + Joomla.JText._('COM_RELEASECHECKING_SELECT') + '...</option>');
 		jQuery.each(array.ids, function( i, id ) {
 			if (id in actions) {
 				jQuery('#jform_action').append('<option value="'+id+'">' + actions[id] + '</option>');
@@ -102,17 +102,17 @@ function setAction(array){
 	} else {
 		if (array.removed_ids && array.removed_ids.length > 0){
 			// this will only trigger if user has already tested all action in this context.
-			jQuery('#jform_action').append('<option value="">' + Joomla.JText._('COM_RELEASE_CHECKING_ALL_DONE_HERE_SELECT_THE_NEXT_CONTEXT') + '...</option>');
+			jQuery('#jform_action').append('<option value="">' + Joomla.JText._('COM_RELEASECHECKING_ALL_DONE_HERE_SELECT_THE_NEXT_CONTEXT') + '...</option>');
 		} else {
 			// this will only trigger if this context has not actions set
-			jQuery('#jform_action').append('<option value="">' + Joomla.JText._('COM_RELEASE_CHECKING_CREATE') + '...</option>');
+			jQuery('#jform_action').append('<option value="">' + Joomla.JText._('COM_RELEASECHECKING_CREATE') + '...</option>');
 		}
 	}
 	jQuery('#jform_action').trigger('liszt:updated');
 }
 
 function getActionDescription_server(action){
-	var getUrl = JRouter("index.php?option=com_release_checking&task=ajax.getActionDescription&raw=true&format=json");
+	var getUrl = JRouter("index.php?option=com_releasechecking&task=ajax.getActionDescription&raw=true&format=json");
 	if(token.length > 0 && action > 0){
 		var request = token+'=1&action='+action;
 	}
@@ -146,4 +146,4 @@ function setActionDescription(desc){
 	} else {
 		console.log(desc);
 	}
-} 
+}

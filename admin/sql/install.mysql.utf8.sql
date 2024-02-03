@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `#__release_checking_release_check` (
+CREATE TABLE IF NOT EXISTS `#__releasechecking_release_check` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`asset_id` INT(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
 	`action` INT(11) NOT NULL DEFAULT 0,
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `#__release_checking_release_check` (
 	KEY `idx_state` (`published`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
-CREATE TABLE IF NOT EXISTS `#__release_checking_joomla_version` (
+CREATE TABLE IF NOT EXISTS `#__releasechecking_joomla_version` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`asset_id` INT(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
 	`alias` CHAR(64) NOT NULL DEFAULT '',
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `#__release_checking_joomla_version` (
 	KEY `idx_state` (`published`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
-CREATE TABLE IF NOT EXISTS `#__release_checking_context` (
+CREATE TABLE IF NOT EXISTS `#__releasechecking_context` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`asset_id` INT(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
 	`alias` CHAR(64) NOT NULL DEFAULT '',
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `#__release_checking_context` (
 	KEY `idx_state` (`published`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
-CREATE TABLE IF NOT EXISTS `#__release_checking_action` (
+CREATE TABLE IF NOT EXISTS `#__releasechecking_action` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`asset_id` INT(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
 	`alias` CHAR(64) NOT NULL DEFAULT '',
@@ -113,34 +113,26 @@ CREATE TABLE IF NOT EXISTS `#__release_checking_action` (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
--- Dumping data for table `#__release_checking_joomla_version`
+-- Dumping data for table `#__releasechecking_joomla_version`
 --
 
-INSERT INTO `#__release_checking_joomla_version` (`id`, `alias`, `name`, `published`) VALUES
-(1, '3-9-5-rc', '3.9.5 RC ', 1),
-(2, '3-9-5-stable-release', '3.9.5 Stable Release', 1),
-(3, '3-9-6-rc', '3.9.6 RC', 1),
-(4, '3-9-6-rc2', '3.9.6 RC2', 1),
-(5, '3-9-7-stable', '3.9.7 Stable', 1),
-(6, '3-9-18', '3.9.18', 1),
-(7, '3-9-8-stable', '3.9.8 Stable', 1),
-(8, '3-9-9-dev', '3.9.9-dev', 1),
-(9, '3-9-11-rc', '3.9.11 RC', 1),
-(10, '3-19-13', '3.19.13', 1),
-(11, '3-9-14', '3.9.14', 1),
-(12, '3-9-15', '3.9.15', 1),
-(13, '3-9-16', '3.9.16', 1),
-(14, '3-9-17', '3.9.17', 1),
-(15, '3-9-19', '3.9.19', 1),
-(16, '3-9-20', '3.9.20', 1),
-(17, '3-9-21', '3.9.21', 1),
-(18, '3-9-22', '3.9.22', 1);
+INSERT INTO `#__releasechecking_joomla_version` (`id`, `alias`, `name`, `published`) VALUES
+(1, '5-0-1-rc2', '5.0.1 Release Candidate 2', 1),
+(2, '5-0-1', '5.0.1', 1),
+(3, '5-1-0-alpha1', '5.1.0 Alpha1', 1),
+(4, '5-1-0-alpha2', '5.1.0 Alpha2', 1),
+(5, '5-0-2-rc1', '5.0.2 Release Candidate 1', 1),
+(6, '5-0-2-rc2', '5.0.2 Release Candidate 2', 1),
+(7, '4-4-2-rc1', '4.4.2 Release Candidate 1', 1),
+(8, '5-0-2', '5.0.2', 1),
+(9, '4-4-2', '4.4.2', 1),
+(10, '5-1-0-alpha3', '5.1.0 Alpha3', 1);
 
 --
--- Dumping data for table `#__release_checking_context`
+-- Dumping data for table `#__releasechecking_context`
 --
 
-INSERT INTO `#__release_checking_context` (`id`, `alias`, `name`, `published`, `created`) VALUES
+INSERT INTO `#__releasechecking_context` (`id`, `alias`, `name`, `published`, `created`) VALUES
 (1, 'com_installer', 'com_installer', 1, '2020-10-31 14:20:29'),
 (2, 'com_users', 'com_users', 1, '2020-10-31 20:21:11'),
 (3, 'com_menu', 'com_menu', 1, '2020-10-31 20:21:31'),
@@ -177,10 +169,10 @@ INSERT INTO `#__release_checking_context` (`id`, `alias`, `name`, `published`, `
 (35, 'recaptcha', 'Recaptcha', 1, '2020-10-31 20:35:46');
 
 --
--- Dumping data for table `#__release_checking_action`
+-- Dumping data for table `#__releasechecking_action`
 --
 
-INSERT INTO `#__release_checking_action` (`id`, `alias`, `context`, `description`, `name`, `published`) VALUES
+INSERT INTO `#__releasechecking_action` (`id`, `alias`, `context`, `description`, `name`, `published`) VALUES
 (1, 'installing-joomla', 1, '', 'Installing Joomla', 1),
 (2, 'adding-new-user-backend', 2, '', 'Adding new user (Backend)', 1),
 (3, 'amending-user-details', 2, '', 'Amending user details', 1),

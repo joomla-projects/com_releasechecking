@@ -2,7 +2,7 @@
 	<update>
 		<name>Track Release Checking</name>
 		<description>Track Release Checking</description>
-		<element>com_release_checking</element>
+		<element>com_releasechecking</element>
 		<type>component</type>
 		<version>1.0.0</version>
 		<infourl title="Track Release Checking!">http://www.joomla.org</infourl>
@@ -19,7 +19,7 @@
 	<update>
 		<name>Track Release Checking</name>
 		<description>Track Release Checking</description>
-		<element>com_release_checking</element>
+		<element>com_releasechecking</element>
 		<type>component</type>
 		<version>1.0.5</version>
 		<infourl title="Track Release Checking!">http://www.joomla.org</infourl>
