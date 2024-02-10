@@ -1,3 +1,8 @@
+# v2.0.1
+
+- Fix canDelete to correctly use published.
+- Add default 1 to version field to make sure the versioning feature works as expected.
+
 # v2.0.0
 
 - Stable release of version 2.0.0 towards Joomla 4 and 5

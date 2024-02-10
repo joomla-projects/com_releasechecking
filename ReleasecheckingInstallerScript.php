@@ -525,7 +525,7 @@ class Com_ReleasecheckingInstallerScript implements InstallerScriptInterface
 			echo '<div style="background-color: #fff;" class="alert alert-info"><a target="_blank" href="http://www.joomla.org" title="Track Release Checking">
 				<img src="components/com_releasechecking/assets/images/vdm-component.jpg"/>
 				</a>
-				<h3>Upgrade to Version 2.0.0 Was Successful! Let us know if anything is not working as expected.</h3></div>';
+				<h3>Upgrade to Version 2.0.1 Was Successful! Let us know if anything is not working as expected.</h3></div>';
 
 			// Add/Update component in the action logs extensions table.
 			$this->setActionLogsExtensions();
