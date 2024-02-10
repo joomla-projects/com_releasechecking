@@ -312,7 +312,7 @@ class Com_ReleasecheckingInstallerScript implements InstallerScriptInterface
 				// router
 				'',
 				// contentHistoryOptions
-				'{"formFile": "administrator/components/com_releasechecking/forms/release_check.xml","hideFields": ["asset_id","checked_out","checked_out_time","version"],"ignoreChanges": ["modified_by","modified","checked_out","checked_out_time","version","hits"],"convertToInt": ["published","ordering","context","action","outcome","joomla_version","created_by"],"displayLookup": [{"sourceColumn": "created_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "access","targetTable": "#__viewlevels","targetColumn": "id","displayColumn": "title"},{"sourceColumn": "modified_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "context","targetTable": "#__releasechecking_context","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "action","targetTable": "#__releasechecking_action","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "joomla_version","targetTable": "#__releasechecking_joomla_version","targetColumn": "id","displayColumn": "name"}]}'
+				'{"formFile": "administrator/components/com_releasechecking/forms/release_check.xml","hideFields": ["asset_id","checked_out","checked_out_time"],"ignoreChanges": ["modified_by","modified","checked_out","checked_out_time","version","hits"],"convertToInt": ["published","ordering","version","hits","context","action","outcome","joomla_version","created_by"],"displayLookup": [{"sourceColumn": "created_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "access","targetTable": "#__viewlevels","targetColumn": "id","displayColumn": "title"},{"sourceColumn": "modified_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "context","targetTable": "#__releasechecking_context","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "action","targetTable": "#__releasechecking_action","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "joomla_version","targetTable": "#__releasechecking_joomla_version","targetColumn": "id","displayColumn": "name"}]}'
 			);
 			// Install Joomla version Content Types.
 			$this->setContentType(
@@ -329,7 +329,7 @@ class Com_ReleasecheckingInstallerScript implements InstallerScriptInterface
 				// router
 				'',
 				// contentHistoryOptions
-				'{"formFile": "administrator/components/com_releasechecking/forms/joomla_version.xml","hideFields": ["asset_id","checked_out","checked_out_time","version"],"ignoreChanges": ["modified_by","modified","checked_out","checked_out_time","version","hits"],"convertToInt": ["published","ordering"],"displayLookup": [{"sourceColumn": "created_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "access","targetTable": "#__viewlevels","targetColumn": "id","displayColumn": "title"},{"sourceColumn": "modified_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"}]}'
+				'{"formFile": "administrator/components/com_releasechecking/forms/joomla_version.xml","hideFields": ["asset_id","checked_out","checked_out_time"],"ignoreChanges": ["modified_by","modified","checked_out","checked_out_time","version","hits"],"convertToInt": ["published","ordering","version","hits"],"displayLookup": [{"sourceColumn": "created_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "access","targetTable": "#__viewlevels","targetColumn": "id","displayColumn": "title"},{"sourceColumn": "modified_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"}]}'
 			);
 			// Install Context Content Types.
 			$this->setContentType(
@@ -346,7 +346,7 @@ class Com_ReleasecheckingInstallerScript implements InstallerScriptInterface
 				// router
 				'',
 				// contentHistoryOptions
-				'{"formFile": "administrator/components/com_releasechecking/forms/context.xml","hideFields": ["asset_id","checked_out","checked_out_time","version"],"ignoreChanges": ["modified_by","modified","checked_out","checked_out_time","version","hits"],"convertToInt": ["published","ordering"],"displayLookup": [{"sourceColumn": "created_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "access","targetTable": "#__viewlevels","targetColumn": "id","displayColumn": "title"},{"sourceColumn": "modified_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"}]}'
+				'{"formFile": "administrator/components/com_releasechecking/forms/context.xml","hideFields": ["asset_id","checked_out","checked_out_time"],"ignoreChanges": ["modified_by","modified","checked_out","checked_out_time","version","hits"],"convertToInt": ["published","ordering","version","hits"],"displayLookup": [{"sourceColumn": "created_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "access","targetTable": "#__viewlevels","targetColumn": "id","displayColumn": "title"},{"sourceColumn": "modified_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"}]}'
 			);
 			// Install Action Content Types.
 			$this->setContentType(
@@ -363,7 +363,7 @@ class Com_ReleasecheckingInstallerScript implements InstallerScriptInterface
 				// router
 				'',
 				// contentHistoryOptions
-				'{"formFile": "administrator/components/com_releasechecking/forms/action.xml","hideFields": ["asset_id","checked_out","checked_out_time","version"],"ignoreChanges": ["modified_by","modified","checked_out","checked_out_time","version","hits"],"convertToInt": ["published","ordering","context"],"displayLookup": [{"sourceColumn": "created_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "access","targetTable": "#__viewlevels","targetColumn": "id","displayColumn": "title"},{"sourceColumn": "modified_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "context","targetTable": "#__releasechecking_context","targetColumn": "id","displayColumn": "name"}]}'
+				'{"formFile": "administrator/components/com_releasechecking/forms/action.xml","hideFields": ["asset_id","checked_out","checked_out_time"],"ignoreChanges": ["modified_by","modified","checked_out","checked_out_time","version","hits"],"convertToInt": ["published","ordering","version","hits","context"],"displayLookup": [{"sourceColumn": "created_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "access","targetTable": "#__viewlevels","targetColumn": "id","displayColumn": "title"},{"sourceColumn": "modified_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "context","targetTable": "#__releasechecking_context","targetColumn": "id","displayColumn": "name"}]}'
 			);
 
 
@@ -466,7 +466,7 @@ class Com_ReleasecheckingInstallerScript implements InstallerScriptInterface
 				// router
 				'',
 				// contentHistoryOptions
-				'{"formFile": "administrator/components/com_releasechecking/forms/release_check.xml","hideFields": ["asset_id","checked_out","checked_out_time","version"],"ignoreChanges": ["modified_by","modified","checked_out","checked_out_time","version","hits"],"convertToInt": ["published","ordering","context","action","outcome","joomla_version","created_by"],"displayLookup": [{"sourceColumn": "created_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "access","targetTable": "#__viewlevels","targetColumn": "id","displayColumn": "title"},{"sourceColumn": "modified_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "context","targetTable": "#__releasechecking_context","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "action","targetTable": "#__releasechecking_action","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "joomla_version","targetTable": "#__releasechecking_joomla_version","targetColumn": "id","displayColumn": "name"}]}'
+				'{"formFile": "administrator/components/com_releasechecking/forms/release_check.xml","hideFields": ["asset_id","checked_out","checked_out_time"],"ignoreChanges": ["modified_by","modified","checked_out","checked_out_time","version","hits"],"convertToInt": ["published","ordering","version","hits","context","action","outcome","joomla_version","created_by"],"displayLookup": [{"sourceColumn": "created_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "access","targetTable": "#__viewlevels","targetColumn": "id","displayColumn": "title"},{"sourceColumn": "modified_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "context","targetTable": "#__releasechecking_context","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "action","targetTable": "#__releasechecking_action","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "joomla_version","targetTable": "#__releasechecking_joomla_version","targetColumn": "id","displayColumn": "name"}]}'
 			);
 			// Update Joomla version Content Types.
 			$this->setContentType(
@@ -483,7 +483,7 @@ class Com_ReleasecheckingInstallerScript implements InstallerScriptInterface
 				// router
 				'',
 				// contentHistoryOptions
-				'{"formFile": "administrator/components/com_releasechecking/forms/joomla_version.xml","hideFields": ["asset_id","checked_out","checked_out_time","version"],"ignoreChanges": ["modified_by","modified","checked_out","checked_out_time","version","hits"],"convertToInt": ["published","ordering"],"displayLookup": [{"sourceColumn": "created_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "access","targetTable": "#__viewlevels","targetColumn": "id","displayColumn": "title"},{"sourceColumn": "modified_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"}]}'
+				'{"formFile": "administrator/components/com_releasechecking/forms/joomla_version.xml","hideFields": ["asset_id","checked_out","checked_out_time"],"ignoreChanges": ["modified_by","modified","checked_out","checked_out_time","version","hits"],"convertToInt": ["published","ordering","version","hits"],"displayLookup": [{"sourceColumn": "created_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "access","targetTable": "#__viewlevels","targetColumn": "id","displayColumn": "title"},{"sourceColumn": "modified_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"}]}'
 			);
 			// Update Context Content Types.
 			$this->setContentType(
@@ -500,7 +500,7 @@ class Com_ReleasecheckingInstallerScript implements InstallerScriptInterface
 				// router
 				'',
 				// contentHistoryOptions
-				'{"formFile": "administrator/components/com_releasechecking/forms/context.xml","hideFields": ["asset_id","checked_out","checked_out_time","version"],"ignoreChanges": ["modified_by","modified","checked_out","checked_out_time","version","hits"],"convertToInt": ["published","ordering"],"displayLookup": [{"sourceColumn": "created_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "access","targetTable": "#__viewlevels","targetColumn": "id","displayColumn": "title"},{"sourceColumn": "modified_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"}]}'
+				'{"formFile": "administrator/components/com_releasechecking/forms/context.xml","hideFields": ["asset_id","checked_out","checked_out_time"],"ignoreChanges": ["modified_by","modified","checked_out","checked_out_time","version","hits"],"convertToInt": ["published","ordering","version","hits"],"displayLookup": [{"sourceColumn": "created_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "access","targetTable": "#__viewlevels","targetColumn": "id","displayColumn": "title"},{"sourceColumn": "modified_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"}]}'
 			);
 			// Update Action Content Types.
 			$this->setContentType(
@@ -517,7 +517,7 @@ class Com_ReleasecheckingInstallerScript implements InstallerScriptInterface
 				// router
 				'',
 				// contentHistoryOptions
-				'{"formFile": "administrator/components/com_releasechecking/forms/action.xml","hideFields": ["asset_id","checked_out","checked_out_time","version"],"ignoreChanges": ["modified_by","modified","checked_out","checked_out_time","version","hits"],"convertToInt": ["published","ordering","context"],"displayLookup": [{"sourceColumn": "created_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "access","targetTable": "#__viewlevels","targetColumn": "id","displayColumn": "title"},{"sourceColumn": "modified_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "context","targetTable": "#__releasechecking_context","targetColumn": "id","displayColumn": "name"}]}'
+				'{"formFile": "administrator/components/com_releasechecking/forms/action.xml","hideFields": ["asset_id","checked_out","checked_out_time"],"ignoreChanges": ["modified_by","modified","checked_out","checked_out_time","version","hits"],"convertToInt": ["published","ordering","version","hits","context"],"displayLookup": [{"sourceColumn": "created_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "access","targetTable": "#__viewlevels","targetColumn": "id","displayColumn": "title"},{"sourceColumn": "modified_by","targetTable": "#__users","targetColumn": "id","displayColumn": "name"},{"sourceColumn": "context","targetTable": "#__releasechecking_context","targetColumn": "id","displayColumn": "name"}]}'
 			);
 
 
